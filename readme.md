@@ -25,3 +25,6 @@ Update your bot token in main.py.
 docker build -t Songest .
 docker run -d -v library:library Songest
 ```
+# Ussage
+
+Just send the link of playlist or album link to the bot and it will download it fir your jellyfin

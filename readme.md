@@ -22,8 +22,8 @@ Update your bot token in main.py.
 
 ```
 
-docker build -t Songest .
-docker run -d -v library:library Songest
+docker build -t songest .
+docker run -d -v library:library songest
 ```
 # Ussage
 

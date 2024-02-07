@@ -26,7 +26,7 @@ def update():
 
             # Send a success message
             update.message.reply_text(f'playlist update started')
-        except subprocess.CalledProcessError as e:
+    except subprocess.CalledProcessError as e:
             # Send an error message if the script execution fails
             update.message.reply_text(f'Error: {e.stderr}')
     

@@ -9,6 +9,7 @@ TOKEN = ""
 
 # Set the path to your download.py script
 DOWNLOAD_SCRIPT_PATH = "download.py"
+update_SCRIPT_PATH = "update_jellyfin.py"
 
 # Enable logging
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
@@ -19,10 +20,10 @@ logger = logging.getLogger(__name__)
 def start(update: Update, context: CallbackContext) -> None:
     update.message.reply_text('/download then link')
     
-def update():
+def update(update: Update, context: CallbackContext) -> None:
     try:
             # Execute the download.py script with the user's message as an argument
-            subprocess.run(['python3', "update_jellyfin.py", user_message], check=True, capture_output=True, text=True)
+            subprocess.run(['python3',update_SCRIPT_PATH], check=True, capture_output=True, text=True)
 
             # Send a success message
             update.message.reply_text(f'playlist update started')
@@ -74,7 +75,7 @@ def main() -> None:
     dp.add_handler(CommandHandler("download", download))
 
     # Register the /download command handler
-    dp.add_handler(CommandHandler("update", Update))
+    dp.add_handler(CommandHandler("update", update))
     
     # Register the message handler
     dp.add_handler(MessageHandler(Filters.text & ~Filters.command, echo))

@@ -17,7 +17,7 @@ def update_jellyfin_library():
         response.raise_for_status()  # Raise an error for unsuccessful requests
 
         # Check if the request was successful
-        if response.status_code == 200:
+        if response.status_code == 204:
             #print("Library update initiated successfully.")
             pass
         else:

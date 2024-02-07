@@ -1,6 +1,7 @@
 import logging
 import subprocess
 from telegram import Update
+from update_jellyfin import update_jellyfin_library
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, CallbackContext
 
 # Set your Telegram bot token here
@@ -17,6 +18,18 @@ logger = logging.getLogger(__name__)
 # Define the /start command handler
 def start(update: Update, context: CallbackContext) -> None:
     update.message.reply_text('/download then link')
+    
+def update():
+    try:
+            # Execute the download.py script with the user's message as an argument
+            subprocess.run(['python3', "update_jellyfin.py", user_message], check=True, capture_output=True, text=True)
+
+            # Send a success message
+            update.message.reply_text(f'playlist update started')
+        except subprocess.CalledProcessError as e:
+            # Send an error message if the script execution fails
+            update.message.reply_text(f'Error: {e.stderr}')
+    
 
 # Define the /download command handler
 def download(update: Update, context: CallbackContext) -> None:
@@ -24,16 +37,19 @@ def download(update: Update, context: CallbackContext) -> None:
     if context.args:
         # Get the user's message and strip whitespaces
         user_message = ' '.join(context.args).strip()
+        
+        if "&&" in user_message:
+            pass
+        else:
+            try:
+                # Execute the download.py script with the user's message as an argument
+                subprocess.run(['python3', DOWNLOAD_SCRIPT_PATH, user_message], check=True, capture_output=True, text=True)
 
-        try:
-            # Execute the download.py script with the user's message as an argument
-            subprocess.run(['python3', DOWNLOAD_SCRIPT_PATH, user_message], check=True, capture_output=True, text=True)
-
-            # Send a success message
-            update.message.reply_text(f'Success! The song/playlist were added')
-        except subprocess.CalledProcessError as e:
-            # Send an error message if the script execution fails
-            update.message.reply_text(f'Error: {e.stderr}')
+                # Send a success message
+                update.message.reply_text(f'Success! The song/playlist were added')
+            except subprocess.CalledProcessError as e:
+                # Send an error message if the script execution fails
+                update.message.reply_text(f'Error: {e.stderr}')
     else:
         # Reply with an error message if no message is provided
         update.message.reply_text('Unknown options. Please provide a message with the /download command.')
@@ -57,6 +73,9 @@ def main() -> None:
     # Register the /download command handler
     dp.add_handler(CommandHandler("download", download))
 
+    # Register the /download command handler
+    dp.add_handler(CommandHandler("update", Update))
+    
     # Register the message handler
     dp.add_handler(MessageHandler(Filters.text & ~Filters.command, echo))
 

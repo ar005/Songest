@@ -28,3 +28,10 @@ docker run -d -v library:library Songest
 # Ussage
 
 Just send the link of playlist or album link to the bot and it will download it fir your jellyfin
+
+# This tool is derived from spotify-downloader by spoDl
+
+check out https://github.com/spotDL/spotify-downloader
+
+# Fair use
+The purpose of this tool is not to encourage piracy, I fully support the creator of music getting full credit and monetry fee for their honest work. This tool doesn`t support piracy.

@@ -11,6 +11,8 @@ WORKDIR library
 # Copy the current directory contents into the container at library
 COPY . library
 
+WORKDIR library
+
 # Install any needed packages specified in requirements.txt
 # (you may need to adjust this depending on your script's dependencies)
 RUN pip install --no-cache-dir -r requirements.txt
